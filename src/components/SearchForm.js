@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cards from "./Cards";
 
 const SearchForm = () => {
-  const [movie, setMovie] = useState("");
+  const [movie, setMovie] = useState([]);
 
   useEffect(() => {
     axios
@@ -28,7 +29,7 @@ const SearchForm = () => {
       </div>
       <div className="result">
         {movie.slice(0, 12).map((movie) => (
-          <h3>{movie.title}</h3>
+            <Cards key={movie.id} movie={movie} />
         ))}
       </div>
     </div>
