@@ -5,6 +5,7 @@ import Cards from "./Cards";
 const SearchForm = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
+  const [sortPopular, setSortPopular] = useState("");
 
   useEffect(() => {
     PopularMovies();
@@ -56,11 +57,51 @@ const SearchForm = () => {
           />
           <input type={"submit"} value={"Search"} />
         </form>
+        <div className="btn-sort-container">
+          <div
+            className="btn-sort"
+            id="goodToBad"
+            onClick={() => {
+              setSortPopular("goodToBad");
+            }}
+          >
+            Most Popular
+          </div>
+          <div
+            className="btn-sort"
+            id="badToGood"
+            onClick={() => {
+              setSortPopular("badToGood");
+            }}
+          >
+            Less Popular
+          </div>
+          <div
+            className="btn-sort"
+            id="reset"
+            onClick={() => {
+              setSortPopular("");
+            }}
+          >
+            Reset popular
+          </div>
+        </div>
       </div>
       <div className="result">
-        {movies.slice(0, 12).map((movie) => (
-          <Cards key={movie.id} movie={movie} />
-        ))}
+        {movies
+          .slice(0, 12)
+          .sort((a, b) => {
+            if (sortPopular === "goodToBad") {
+              return b.vote_average - a.vote_average;
+            } else if (sortPopular === "badToGood") {
+              return a.vote_average - b.vote_average;
+            } else {
+              return 0;
+            }
+          })
+          .map((movie) => (
+            <Cards key={movie.id} movie={movie} />
+          ))}
       </div>
     </div>
   );

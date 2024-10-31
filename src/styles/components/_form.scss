@@ -40,6 +40,7 @@
     width: 220px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     cursor: pointer;
 
     #goodToBad {
@@ -48,29 +49,27 @@
     #badToGood {
       border-radius: 0 10px 10px 0;
     }
-    #goodToBad,
-    #badToGood {
-      background: $color-1;
-      width: 110px;
-      transition: 0.3s;
-      position: relative;
+    #reset {
+      margin-inline-start: 1rem;
+      border-radius: 10px;
 
       &:hover {
         background: $black;
       }
     }
-    #goodToBad span {
-      transform: translateY(-50%) rotate(-90deg);
-      right: 18px;
-    }
-    #badToGood span {
-      transform: translateY(-50%) rotate(90deg);
-      left: 16px;
-    }
-    #goodToBad span,
-    #badToGood span {
-      position: absolute;
-      top: 50%;
+
+    #goodToBad,
+    #badToGood,
+    #reset {
+      background: $color-1;
+      width: 110px;
+      transition: 0.3s;
+      position: relative;
+      font-size: 1.4rem;
+
+      &:hover {
+        background: $black;
+      }
     }
   }
 }
