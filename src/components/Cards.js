@@ -113,7 +113,15 @@ const Cards = ({ movie }) => {
       <h4 style={{ display: "flex" }}>
         {(Math.ceil(movie.vote_average * 10) / 10).toFixed(1)}/10<span>❤️</span>
       </h4>
-      <ul>{movie.genre_ids ? genreAll() : null}</ul>
+      <ul>
+        {movie.genre_ids
+          ? genreAll()
+          : movie.genres.map((genre) => (
+              <li key={genre} style={{ textTransform: "capitalize" }}>
+                {genre.name}
+              </li>
+            ))}
+      </ul>
       <p>{movie.overview}</p>
       {movie.genre_ids ? (
         <div
