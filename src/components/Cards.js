@@ -90,6 +90,12 @@ const Cards = ({ movie }) => {
     }
   };
 
+  const removeFav = () => {
+    let fav = window.localStorage.movies.split(",");
+    let newData = fav.filter((id) => id !== movie.id.toString());
+    window.localStorage.movies = newData;
+  };
+
   return (
     <div className={"card"}>
       <img
@@ -109,13 +115,25 @@ const Cards = ({ movie }) => {
       </h4>
       <ul>{movie.genre_ids ? genreAll() : null}</ul>
       <p>{movie.overview}</p>
-      <div
-        className="btn"
-        style={{ textTransform: "capitalize" }}
-        onClick={addFav}
-      >
-        add to my liked list
-      </div>
+      {movie.genre_ids ? (
+        <div
+          className="btn"
+          style={{ textTransform: "capitalize" }}
+          onClick={addFav}
+        >
+          add to my liked list
+        </div>
+      ) : (
+        <div
+          className="btn"
+          onClick={() => {
+            removeFav();
+            window.location.reload(true);
+          }}
+        >
+          Remove from my liked list
+        </div>
+      )}
     </div>
   );
 };
