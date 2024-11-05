@@ -1,33 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import axios from "axios";
 import Cards from "../components/Cards";
 
-const Fav = () => {
-  const [favMovie, setFavMovie] = React.useState([]);
+const LikedTitles = () => {
+  const [favMovie, setFavMovie] = useState([]);
 
   useEffect(() => {
-    const fav = JSON.parse(localStorage.getItem("fav"));
-    if (fav) {
-      fav.map(async (id) => {
-        const res = await axios.get(
-          `https://api.themoviedb.org/3/movie/${id}?api_key=03a005ba73a452bea154f766bc1e7562&language=en-US`
-        );
-        setFavMovie((prev) => [...prev, res.data]);
-      });
-    }
+    const fetchFavoriteMovies = async () => {
+      const storedFavorites = localStorage.getItem("movies");
+      const moviesId = storedFavorites ? storedFavorites.split(",") : [];
+      const moviePromises = moviesId.map((id) =>
+        axios.get(
+          `https://api.themoviedb.org/3/movie/${id}?api_key=03a005ba73a452bea154f766bc1e7562`
+        )
+      );
+      try {
+        const movieResponses = await Promise.all(moviePromises);
+        setFavMovie(movieResponses.map((response) => response.data));
+      } catch (error) {
+        console.error("Failed to fetch movies:", error);
+      }
+    };
+
+    fetchFavoriteMovies();
   }, []);
 
   return (
-    <v>
+    <div className="user-list-page">
       <Header />
-      <div className="favorites">
+      <h2>Favorites movies</h2>
+      <div className="result">
         {favMovie.map((movie) => (
           <Cards key={movie.id} movie={movie} />
         ))}
       </div>
-    </v>
+    </div>
   );
 };
 
-export default Fav;
+export default LikedTitles;

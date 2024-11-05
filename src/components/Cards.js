@@ -80,11 +80,13 @@ const Cards = ({ movie }) => {
   };
 
   const addFav = () => {
-    let fav = JSON.parse(localStorage.getItem("fav")) || [];
-    if (!fav.includes(movie.id)) {
+    let fav = window.localStorage.movies
+      ? window.localStorage.movies.split(",")
+      : [];
+
+    if (!fav.includes(movie.id.toString())) {
       fav.push(movie.id);
-      localStorage.setItem("fav", JSON.stringify(fav));
-      console.log("add to fav");
+      window.localStorage.movies = fav;
     }
   };
 
